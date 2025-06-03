@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/6d81f71d-4664-47f3-b475-84c592ef9cbc)![image](https://github.com/user-attachments/assets/073ede08-4d44-4092-94f3-416882d3ec49)![image](https://github.com/user-attachments/assets/35c0f222-ec15-4c07-bce2-e319da2da06c)# Evaluating and Improving Framework-Based Parallel Code Completion with Large Language Models
+# Evaluating and Improving Framework-Based Parallel Code Completion with Large Language Models
 
 This repository contains the dataset, models, and evaluation scripts for our paper.
 
@@ -51,9 +51,16 @@ Our evaluation covers:
 
 To support reproducibility, we provide our **prompt templates** used for zero-shot and 3-shot evaluation in `data/prompt/`:
 
-<p align="center">
-  <img src="images/empirical.jpg" alt="Method Overview" width="850"/>
-</p>
+### 🧾  Zero-shot and 3-shot Performance on FPCC
+
+| Model                        | EM (0) | EM (3) | STF (0) | STF (3) | IP (0) | IP (3) | FW (0) | FW (3) | DIR (0) | DIR (3) |
+|-----------------------------|--------|--------|---------|---------|--------|--------|--------|--------|---------|---------|
+| Llama3.1-8B                 | 0.03   | 0.09   | 0.02    | 0.06    | 2.29   | 2.35   | 8.32   | 25.38  | 0.76    | 1.32    |
+| **GPT-4**                   | **0.43** | **1.81** | **0.37**  | **1.36**  | **6.83** | **7.66** | **32.29** | 44.61 |3.97  | **5.87**  |
+| Qwen2.5-Coder-32B-Instruct  | 0.12   | 0.42   | 0.13    | 0.37    | 3.97   | 5.44   | 23.15  | 42.95  | **4.02**    | 5.27    |
+| Qwen2.5-Coder-7B-Instruct   | 0.00   | 0.30   | 0.00    | 0.19    | 5.19   | 4.93   | 31.90  | **70.32**  | 3.73    | 5.54    |
+| StarCoder2-7B               | 0.00   | 0.00   | 0.00    | 0.00    | 0.24   | 0.21   | 0.16   | 0.50   | 0.09    | 0.11    |
+| CodeLlama-7B-hf             | 0.00   | 0.00   | 0.00    | 0.00    | 0.25   | 0.30   | 0.20   | 0.52   | 0.10    | 0.13    |
 
 
 
@@ -72,7 +79,25 @@ Our approach consists of a structured pipeline to build and evaluate a realistic
 - 🔍 **Limitation Analysis**: We analyze typical model failure cases to inform future improvements.
 
 
+## 🚀 Effectiveness of Our Method: HPCL
 
+We evaluate the impact of our proposed Hierarchical Progressive Curriculum Learning (HPCL) across four representative LLMs.
+Results show that HPCL consistently improves performance across all sub-tasks in the FPCC benchmark.
+
+| Model                       | EM     | SFT    | IP     | FW     | DIR    |
+|----------------------------|--------|--------|--------|--------|--------|
+| Llama3.1-8B                | 0.09   | 0.06   | 2.35   | 25.38  | 1.32   |
+| + SFT                     | 36.85  | 36.72  | 49.32  | 98.81  | 40.35  |
+| + HPCL                    | **43.21**  | **43.05**  | **54.80**  | 98.79  | **43.88**  |
+| StarCoder2-7B             | 0.00   | 0.00   | 0.21   | 0.50   | 0.11   |
+| + SFT                     | 31.05  | 30.95  | 43.19  | 98.68  | 38.08  |
+| + HPCL                    | **42.17**  | **42.05**  | **53.47**  | 98.77  | **43.48**  |
+| CodeLlama-7B-hf           | 0.00   | 0.00   | 0.30   | 0.52   | 0.13   |
+| + SFT                     | 38.32  | 38.44  | 50.08  | 98.87  | 41.74  |
+| + HPCL                    | **44.72**  | **44.64**  | **56.15**  | 98.86  | **44.12**  |
+| Qwen2.5-Coder-7B-Instruct | 0.30   | 0.19   | 4.93   | 70.32  | 5.54   |
+| + SFT                     | 39.16  | 39.08  | 50.09  | 99.05  | 42.14  |
+| + HPCL                    | **46.14**  | **46.00**  | **56.75**  | **99.33**  | **44.43**  |
 
 
 
