@@ -38,6 +38,26 @@ FPCC moves beyond basic API generation tasks and frames parallelization as a **s
 
 By aligning evaluation with real-world code transformation needs, FPCC offers a principled benchmark for building next-generation intelligent assistants for parallel programming.
 
+
+
+## 📊 Evaluating FPCC with LLMs
+
+We conduct a systematic empirical study to evaluate the performance of large language models (LLMs) on the FPCC task.
+
+Our evaluation covers:
+- ⚙️ Zero-shot prompting using popular open-source and closed-source LLMs
+- 🧪 Multi-stage fine-tuning under task decomposition
+- 📈 Metrics including line-level F1, framework accuracy, and CodeBLEU
+
+To support reproducibility, we provide our **prompt templates** used for zero-shot and 3-shot evaluation in `data/prompt/`:
+
+<p align="center">
+  <img src="images/empirical.jpg" alt="Method Overview" width="850"/>
+</p>
+
+
+
+
 ## 🧪 Method Overview
 
 Our approach consists of a structured pipeline to build and evaluate a realistic benchmark for multi-framework parallel code completion.
