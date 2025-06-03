@@ -1,4 +1,4 @@
-# Evaluating and Improving Framework-Based Parallel Code Completion with Large Language Models
+![image](https://github.com/user-attachments/assets/6d81f71d-4664-47f3-b475-84c592ef9cbc)![image](https://github.com/user-attachments/assets/073ede08-4d44-4092-94f3-416882d3ec49)![image](https://github.com/user-attachments/assets/35c0f222-ec15-4c07-bce2-e319da2da06c)# Evaluating and Improving Framework-Based Parallel Code Completion with Large Language Models
 
 This repository contains the dataset, models, and evaluation scripts for our paper.
 
@@ -38,7 +38,18 @@ FPCC moves beyond basic API generation tasks and frames parallelization as a **s
 
 By aligning evaluation with real-world code transformation needs, FPCC offers a principled benchmark for building next-generation intelligent assistants for parallel programming.
 
+## 🧪 Method Overview
 
+Our approach consists of a structured pipeline to build and evaluate a realistic benchmark for multi-framework parallel code completion.
+
+<p align="center">
+  <img src="images/overview.jpg" alt="Method Overview" width="850"/>
+</p>
+
+- 🔍 **Data Construction**: We extract and normalize parallel code from GitHub, ensuring license compliance and quality. Each sample is labeled with insertion points and target frameworks (OpenMP, MPI, CUDA, etc).
+- 📊 **Sample Difficulty Estimation**: We assess instance complexity (e.g., cyclomatic complexity, loop depth) to support curriculum learning.
+- 🧠 **Multi-Stage Training**: We decompose the FPCC task into four sub-tasks and train LLMs accordingly.
+- 🔍 **Limitation Analysis**: We analyze typical model failure cases to inform future improvements.
 
 
 
