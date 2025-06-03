@@ -99,9 +99,36 @@ Results show that HPCL consistently improves performance across all sub-tasks in
 | + SFT                     | 39.16  | 39.08  | 50.09  | 99.05  | 42.14  |
 | + HPCL                    | **46.14**  | **46.00**  | **56.75**  | **99.33**  | **44.43**  |
 
+## ⚡ Quick Start
 
+You can quickly load and use our **HPCL-Coder** model via the 🤗 Hugging Face `transformers` library.
 
+### 🔧 Installation
 
+```bash
+pip install transformers accelerate
+```
+### 🧠 Load the HPCL Model
+
+```bash
+from transformers import AutoTokenizer, AutoModelForCausalLM
+
+# Load tokenizer and model
+tokenizer = AutoTokenizer.from_pretrained("HPCL/HPCL-Coder")
+model = AutoModelForCausalLM.from_pretrained("HPCL/HPCL-Coder")
+
+# Move to GPU if available
+import torch
+model = model.to("cuda" if torch.cuda.is_available() else "cpu")
+```
+🚀 Run Inference on a Prompt
+```bash
+
+inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
+outputs = model.generate(**inputs, max_new_tokens=64)
+print(tokenizer.decode(outputs[0], skip_special_tokens=True))
+```
+📁 You can also use our structured prompt templates in data/prompt/ to guide FPCC-style completions.
 
 
 
