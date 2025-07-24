@@ -1,3 +1,15 @@
+
+
+<p align="center">
+  📌 <a href="#-overview">Overview</a> • 📊 <a href="#-evaluating-fpcc-with-llms">Evaluation</a> • 🧠 <a href="#-method-overview">Method</a> • 🚀 <a href="#-effectiveness-of-our-method-hpcl">HPCL Results</a> • ⚡ <a href="#-quick-start">Quick Start</a>
+</p>
+
+---
+
+
+
+
+
 # Evaluating and Improving Framework-Based Parallel Code Completion with Large Language Models
 
 This repository contains the dataset, models, and evaluation scripts for our paper.
