@@ -82,6 +82,59 @@ We compare model performance on single-framework vs multi-framework samples usin
 | Qwen2.5-Coder-7B-Instruct + HPCL | Single-Framework  | **46.14** | **46.00** | **56.75** | **99.33** | **44.43** |
 |                                  | Multi-Framework   | 9.94  | 9.68  | 19.42  | 96.81  | 7.79   |
 
+## ⚙️ Model Configuration
+
+### 🔄 Decoding & Sampling Config
+
+| Parameter             | Value            |
+|-----------------------|------------------|
+| `seed`                | 42               |
+| `do_sample`           | `true`           |
+| `temperature`         | 0.7              |
+| `top_k`               | 20               |
+| `top_p`               | 0.8              |
+| `repetition_penalty` | 1.1              |
+| `transformers_version`| 4.49.0           |
+
+> These decoding settings are consistently used in all evaluations.
+
+---
+
+### 🏋️ Training Config (Shared by HPCL and SFT)
+
+All models were trained using the **same set of hyperparameters**, whether using standard supervised fine-tuning (SFT) or our proposed Hierarchical Progressive Curriculum Learning (HPCL) strategy.
+
+| Parameter                     | Value     |
+|-------------------------------|-----------|
+| `optimizer`                   | AdamW     |
+| `lr_scheduler_type`           | cosine    |
+| `learning_rate`               | 5e-5      |
+| `num_train_epochs`            | 3         |
+| `warmup_ratio`                | 0.03      |
+| `per_device_train_batch_size` | 4         |
+| `gradient_accumulation_steps` | 8         |
+| `weight_decay`                | 0.01      |
+| `max_seq_length`              | 2048      |
+
+> ✅ These settings are **fixed across all training experiments** to ensure fair comparison between SFT and HPCL strategies.
+
+### 🖥️ Hardware Platform
+
+All training and evaluation experiments were conducted on the following hardware:
+
+
+| Component          | Specification                                      |
+|--------------------|----------------------------------------------------|
+| **CPU**            | 2 × Intel Xeon Platinum 8358 @ 2.60GHz (128 cores) |
+| **RAM**            | 512 GB DDR4                                        |
+| **GPU**            | 8 × NVIDIA H100 PCIe (80 GB each)                  |
+| **CUDA Version**   | 12.4                                               |
+| **Driver Version** | 550.54.15                                          |
+| **OS**             | Ubuntu 20.04.6 LTS (Linux 5.15 kernel)             |
+
+
+> ✅ All experiments were run using the same hardware setup to ensure consistency across model variants and tasks.
+
 
 
 
