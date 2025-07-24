@@ -71,6 +71,17 @@ To support reproducibility, we provide our **prompt templates** used for zero-sh
 | StarCoder2-7B               | 0.00   | 0.00   | 0.00    | 0.00    | 0.24   | 0.21   | 0.16   | 0.50   | 0.09    | 0.11    |
 | CodeLlama-7B-hf             | 0.00   | 0.00   | 0.00    | 0.00    | 0.25   | 0.30   | 0.20   | 0.52   | 0.10    | 0.13    |
 
+### 📐 Single-Framework vs Multi-Framework Evaluation
+
+We compare model performance on single-framework vs multi-framework samples using the Qwen2.5-Coder-7B-Instruct model and its HPCL-enhanced variant.
+
+| Approach                          | Sample Type       | EM    | SFT   | IP     | FW     | DIR    |
+|----------------------------------|-------------------|-------|-------|--------|--------|--------|
+| Qwen2.5-Coder-7B-Instruct         | Single-Framework  | 0.30  | 0.19  | 4.93   | 70.32  | 5.54   |
+|                                  | Multi-Framework   | 0.00  | 0.00  | 0.34   | 38.56  | 0.76   |
+| Qwen2.5-Coder-7B-Instruct + HPCL | Single-Framework  | **46.14** | **46.00** | **56.75** | **99.33** | **44.43** |
+|                                  | Multi-Framework   | 9.94  | 9.68  | 19.42  | 96.81  | 7.79   |
+
 
 
 
