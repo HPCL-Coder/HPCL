@@ -82,6 +82,21 @@ We compare model performance on single-framework vs multi-framework samples usin
 | Qwen2.5-Coder-7B-Instruct + HPCL | Single-Framework  | **46.14** | **46.00** | **56.75** | **99.33** | **44.43** |
 |                                  | Multi-Framework   | 9.94  | 9.68  | 19.42  | 96.81  | 7.79   |
 
+## 🧪 Method Overview
+
+Our approach consists of a structured pipeline to build and evaluate a realistic benchmark for multi-framework parallel code completion.
+
+<p align="center">
+  <img src="images/overview.jpg" alt="Method Overview" width="850"/>
+</p>
+
+- 🔍 **Data Construction**: We extract and normalize parallel code from GitHub, ensuring license compliance and quality. Each sample is labeled with insertion points and target frameworks (OpenMP, MPI, CUDA, etc).
+- 📊 **Sample Difficulty Estimation**: We assess instance complexity (e.g., cyclomatic complexity, loop depth) to support curriculum learning.
+- 🧠 **Multi-Stage Training**: We decompose the FPCC task into four sub-tasks and train LLMs accordingly.
+- 🔍 **Limitation Analysis**: We analyze typical model failure cases to inform future improvements.
+
+
+
 ## ⚙️ Model Configuration
 
 ### 🔄 Decoding & Sampling Config
@@ -137,21 +152,6 @@ All training and evaluation experiments were conducted on the following hardware
 
 
 
-
-## 🧪 Method Overview
-
-Our approach consists of a structured pipeline to build and evaluate a realistic benchmark for multi-framework parallel code completion.
-
-<p align="center">
-  <img src="images/overview.jpg" alt="Method Overview" width="850"/>
-</p>
-
-- 🔍 **Data Construction**: We extract and normalize parallel code from GitHub, ensuring license compliance and quality. Each sample is labeled with insertion points and target frameworks (OpenMP, MPI, CUDA, etc).
-- 📊 **Sample Difficulty Estimation**: We assess instance complexity (e.g., cyclomatic complexity, loop depth) to support curriculum learning.
-- 🧠 **Multi-Stage Training**: We decompose the FPCC task into four sub-tasks and train LLMs accordingly.
-- 🔍 **Limitation Analysis**: We analyze typical model failure cases to inform future improvements.
-
-
 ## 🚀 Effectiveness of Our Method: HPCL
 
 We evaluate the impact of our proposed Hierarchical Progressive Curriculum Learning (HPCL) across four representative LLMs.
@@ -171,6 +171,36 @@ Results show that HPCL consistently improves performance across all sub-tasks in
 | Qwen2.5-Coder-7B-Instruct | 0.30   | 0.19   | 4.93   | 70.32  | 5.54   |
 | + SFT                     | 39.16  | 39.08  | 50.09  | 99.05  | 42.14  |
 | + HPCL                    | **46.14**  | **46.00**  | **56.75**  | **99.33**  | **44.43**  |
+
+
+
+### ❗ Error Type Distribution Comparison (HPCL vs SFT)
+
+We manually annotated a sample of model outputs under both SFT and HPCL training regimes.  
+The table below shows the distribution of fine-grained error types under each setting:
+
+| High-Level Error Category   | Fine-Grained Error Type          | Description                                                                                                           |   HPCL (%) |   SFT (%) |
+|:----------------------------|:---------------------------------|:----------------------------------------------------------------------------------------------------------------------|-----------:|----------:|
+| Insertion Point Error       | Misaligned Directive             | Directive inserted at incorrect line, affects scope or logic.                                                         |      30.19 |     40.19 |
+|                             | Scope Violation                  | Directive placed outside its intended loop or region.                                                                 |       6.73 |     10.19 |
+|                             | Execution Order Misunderstanding | Incorrect placement disrupts logical execution sequence.                                                              |       4.04 |      6.15 |
+| Missing Completion          | Missing Directive                | Expected parallel construct is not generated.                                                                         |       8.85 |     14.42 |
+|                             | Missing Clause                   | Directive lacks required clause like num_threads, collapse.                                                            |       1.73 |      2.12 |
+|                             | Missing Synchronization          | Omitted necessary barrier or wait, risking race conditions.                                                            |       0.38 |      1.35 |
+|                             | Missing Finalization             | Post-execution validation or clean-up steps omitted (e.g., getLastCudaError, cudaFree, MPI_Finalize).                |       0.38 |      1.15 |
+| Redundant Completion        | Redundant Directive              | Inserted directive is unnecessary given existing context.                                                             |      14.42 |     20.19 |
+|                             | Duplicate Operation              | Same memory transfer or barrier duplicated.                                                                           |       1.15 |      3.08 |
+|                             | Hallucinated Code                | Model generated directive/function unrelated to context.                                                              |       2.50 |      6.15 |
+| Incorrect Usage             | Wrong Directive Type             | Incorrect parallel directive selected (e.g., MPI_Wait vs MPI_Bcast).                                                  |       9.04 |     13.08 |
+|                             | Wrong Framework                  | Used directives from the wrong parallel framework.                                                                    |       0.58 |      2.31 |
+|                             | Incorrect Variable or Buffer     | Used wrong variable in directive or data transfer.                                                                    |       5.96 |     10.96 |
+|                             | Invalid Argument                 | Function call includes wrong or mismatched arguments.                                                                 |       2.88 |      4.62 |
+|                             | Incorrect Clause Specification   | Clause value is invalid (e.g., collapse(-1), if()).                                                                   |       3.85 |      6.54 |
+|                             | Invalid Synchronization Usage    | Synchronization APIs used in wrong order or scope.                                                                    |       0.77 |      2.12 |
+| Syntax Error                | Malformed Directive              | Directive syntax is incorrect (e.g., collapse(4,)).                                                                   |       4.04 |      5.96 |
+|                             | Invalid Clause Syntax            | Clause malformed or includes illegal values.                                                                          |       1.73 |      3.08 |
+|                             | Typographical Error              | Code contains undefined symbols, typos, or unclosed expressions.                                                      |       0.77 |      2.31 |
+
 
 ## ⚡ Quick Start
 
