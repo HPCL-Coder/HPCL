@@ -7,10 +7,7 @@
 ---
 
 
-
-
-
-# Evaluating and Improving Framework-Based Parallel Code Completion with Large Language Models
+# 🧠 Evaluating and Improving Framework-Based Parallel Code Completion with Large Language Models
 
 This repository contains the dataset, models, and evaluation scripts for our paper.
 
